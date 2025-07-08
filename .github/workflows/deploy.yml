@@ -1,0 +1,46 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v2
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
+
+    - name: Log in to Amazon ECR
+      run: |
+        aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 524256002191.dkr.ecr.ap-south-1.amazonaws.com
+
+    - name: Build and Push Backend Docker Image
+      run: |
+        docker build -t fastapi-backend ./backend
+        docker tag fastapi-backend 524256002191.dkr.ecr.ap-south-1.amazonaws.com/fastapi-backend
+        docker push 524256002191.dkr.ecr.ap-south-1.amazonaws.com/fastapi-backend
+
+    - name: Build and Push Frontend Docker Image
+      run: |
+        docker build -t nextjs-frontend ./frontend
+        docker tag nextjs-frontend 524256002191.dkr.ecr.ap-south-1.amazonaws.com/nextjs-frontend
+        docker push 524256002191.dkr.ecr.ap-south-1.amazonaws.com/nextjs-frontend
+
+    - name: Terraform Init and Apply
+      working-directory: ./terraform
+      run: |
+        terraform init
+        terraform apply -auto-approve
+
