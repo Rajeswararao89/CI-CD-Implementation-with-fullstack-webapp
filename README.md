@@ -1,125 +1,138 @@
-# DevOps Assignment
+# 🚀 CI/CD Implementation with Fullstack Web Application
 
-This project consists of a FastAPI backend and a Next.js frontend that communicates with the backend.
+This project demonstrates a complete DevOps pipeline with a **FastAPI backend** and a **Next.js frontend**. The application is containerized using **Docker**, deployed on **AWS ECS (Fargate)**, infrastructure provisioned with **Terraform**, and integrated with **CI/CD using GitHub Actions**.
 
-## Project Structure
+---
 
-```
-.
-├── backend/               # FastAPI backend
-│   ├── app/
-│   │   └── main.py       # Main FastAPI application
-│   └── requirements.txt    # Python dependencies
-└── frontend/              # Next.js frontend
-    ├── pages/
-    │   └── index.js     # Main page
-    ├── public/            # Static files
-    └── package.json       # Node.js dependencies
-```
+## 🔧 Tech Stack
 
-## Prerequisites
+- **Frontend**: Next.js
+- **Backend**: FastAPI (Python)
+- **Containerization**: Docker
+- **Infrastructure**: AWS ECS (Fargate), ECR, ALB, IAM, VPC (via Terraform)
+- **CI/CD**: GitHub Actions
+- **Monitoring**: CloudWatch
 
-- Python 3.8+
-- Node.js 16+
-- npm or yarn
+---
 
-## Backend Setup
+## 📁 Project Structure
 
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
+DevOps-Assignment/
+├── backend/ # FastAPI backend
+│ └── app/main.py
+│ └── requirements.txt
+├── frontend/ # Next.js frontend
+│ └── pages/index.js
+│ └── .env.production
+├── terraform/ # Infrastructure as Code
+│ └── main.tf
+│ └── variables.tf
+│ └── outputs.tf
+├── .github/
+│ └── workflows/deploy.yml # GitHub Actions CI/CD Workflow
+├── Dockerfile (both in backend/ and frontend/)
+└── README.md
 
-2. Create a virtual environment (recommended):
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: .\venv\Scripts\activate
-   ```
 
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+---
 
-4. Run the FastAPI server:
-   ```bash
-   uvicorn app.main:app --reload --port 8000
-   ```
+## 📸 Screenshots
 
-   The backend will be available at `http://localhost:8000`
+### ✅ Frontend Connected to Backend (Successful Integration)
 
-## Frontend Setup
+![Frontend Screenshot](./assets/frontend-success.png)
 
-1. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
+- **Status**: `Backend is connected!`
+- **Message**: `You've successfully integrated the backend!`
+- **Backend URL**: `http://localhost:8000`
 
-2. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn
-   ```
+---
 
-3. Configure the backend URL (if different from default):
-   - Open `.env.local`
-   - Update `NEXT_PUBLIC_API_URL` with your backend URL
-   - Example: `NEXT_PUBLIC_API_URL=https://your-backend-url.com`
+## ⚙️ Setup Instructions
 
-4. Run the development server:
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   ```
+### 1. Clone the Repository
 
-   The frontend will be available at `http://localhost:3000`
+```bash
+git clone https://github.com/Rajeswararao89/CI-CD-Implementation-with-fullstack-webapp.git
+cd CI-CD-Implementation-with-fullstack-webapp
 
-## Changing the Backend URL
+Backend Setup (FastAPI)
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+Visit: http://localhost:8000/docs
 
-To change the backend URL that the frontend connects to:
 
-1. Open the `.env.local` file in the frontend directory
-2. Update the `NEXT_PUBLIC_API_URL` variable with your new backend URL
-3. Save the file
-4. Restart the Next.js development server for changes to take effect
+Frontend Setup (Next.js)
+cd frontend
+npm install
 
-Example:
-```
-NEXT_PUBLIC_API_URL=https://your-new-backend-url.com
-```
+# Update API URL
+echo "NEXT_PUBLIC_API_URL=http://localhost:8000" > .env.local
 
-## For deployment:
-   ```bash
-   npm run build
-   # or
-   yarn build
-   ```
+npm run dev
+Visit: http://localhost:3000
 
-   AND
+Dockerize Backend & Frontend
+# Backend
+cd backend
+docker build -t fastapi-backend .
 
-   ```bash
-   npm run start
-   # or
-   yarn start
-   ```
+# Frontend
+cd ../frontend
+docker build -t nextjs-frontend .
 
-   The frontend will be available at `http://localhost:3000`
+Push Docker Images to AWS ECR
+# Login to AWS ECR
+aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin <your-account>.dkr.ecr.ap-south-1.amazonaws.com
 
-## Testing the Integration
+# Push images
+docker tag fastapi-backend <your-ecr>/fastapi-backend
+docker push <your-ecr>/fastapi-backend
 
-1. Ensure both backend and frontend servers are running
-2. Open the frontend in your browser (default: http://localhost:3000)
-3. If everything is working correctly, you should see:
-   - A status message indicating the backend is connected
-   - The message from the backend: "You've successfully integrated the backend!"
-   - The current backend URL being used
+docker tag nextjs-frontend <your-ecr>/nextjs-frontend
+docker push <your-ecr>/nextjs-frontend
 
-## API Endpoints
+Provision Infrastructure (Terraform)
+cd terraform
+terraform init
+terraform apply -auto-approve
 
-- `GET /api/health`: Health check endpoint
-  - Returns: `{"status": "healthy", "message": "Backend is running successfully"}`
 
-- `GET /api/message`: Get the integration message
-  - Returns: `{"message": "You've successfully integrated the backend!"}`
+CI/CD Setup (GitHub Actions)
+Add secrets in GitHub repo under:
+
+nginx
+Copy
+Edit
+Settings > Secrets and variables > Actions
+Required Secrets:
+
+AWS_ACCESS_KEY_ID
+
+AWS_SECRET_ACCESS_KEY
+
+Workflow file: .github/workflows/deploy.yml
+
+
+CI/CD Workflow Summary
+On every push to main:
+Code is checked out
+Docker images are built and pushed to ECR
+Terraform deploys infrastructure
+ECS services are updated
+
+
+✅ Output
+Deployed frontend:
+🔗 ALB Endpoint (ECS)
+
+👨‍💻 Author
+Rajeswara Rao
+DevOps Intern | B.Tech CSE, LPU
+GitHub: Rajeswararao89
+
+
+
