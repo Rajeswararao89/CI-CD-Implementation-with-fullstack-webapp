@@ -36,15 +36,21 @@ DevOps-Assignment/
 
 ---
 
-## 📸 Screenshots
+## 📸 Project Screenshots
 
-### ✅ Frontend Connected to Backend (Successful Integration)
+Below are some screenshots demonstrating the application's functionality:
 
-![Frontend Screenshot](./assets/frontend-success.png)
+![Frontend Page](https://github.com/user-attachments/assets/92338857-c5cd-4868-b84f-fcbc348a4204)
 
-- **Status**: `Backend is connected!`
-- **Message**: `You've successfully integrated the backend!`
-- **Backend URL**: `http://localhost:8000`
+![AWS ECS](https://github.com/user-attachments/assets/442fba62-902b-45b2-96a9-b8c998712ad7)
+
+![Frontend ECS1](https://github.com/user-attachments/assets/0dbda10e-cf3d-41d1-a8fc-7dc67f3ba60e)
+
+![Backend ECS](https://github.com/user-attachments/assets/98f870d9-04e4-4bff-95fb-521a7af1b2e0)
+
+![AWS ECR](https://github.com/user-attachments/assets/04963030-9a33-4140-adfb-227dcf026f72)
+
+![AWS ALB](https://github.com/user-attachments/assets/51055b2f-d587-4207-b28c-0ad575bf0a61)
 
 ---
 
