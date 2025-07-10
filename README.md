@@ -52,6 +52,14 @@ Below are some screenshots demonstrating the application's functionality:
 
 ![AWS ALB](https://github.com/user-attachments/assets/51055b2f-d587-4207-b28c-0ad575bf0a61)
 
+![AWS CloudWatch Alarm](https://github.com/user-attachments/assets/ca07dd92-57ea-420e-a85f-847e3d45366d)
+
+![AWS CloudWatch DashBoard](https://github.com/user-attachments/assets/ab297d10-c004-40fd-b1ca-5943d41f304a)
+
+
+
+
+
 ---
 
 ## ⚙️ Setup Instructions
