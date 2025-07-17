@@ -1,4 +1,4 @@
-# 🚀 CI/CD Implementation with Fullstack Web Application
+# 🚀 CI/CD Implementation for Fullstack Web Application
 
 This project demonstrates a complete DevOps pipeline with a **FastAPI backend** and a **Next.js frontend**. The application is containerized using **Docker**, deployed on **AWS ECS (Fargate)**, infrastructure provisioned with **Terraform**, and integrated with **CI/CD using GitHub Actions**.
 
